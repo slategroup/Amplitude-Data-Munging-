@@ -1,5 +1,5 @@
 
-amp <- Event_Segmentation_Custom_ad_totalplay_ad_pause_ad_resume_ad_quartile25_ad_quartile50_ad_quartile75_ad_co_2018_01_01_2018_11_19_
+amp <- #insert file name here
 
  colnames(amp) [1] <- "Event"
  colnames(amp) [2] <-"ad-total play"
@@ -14,18 +14,24 @@ amp <- Event_Segmentation_Custom_ad_totalplay_ad_pause_ad_resume_ad_quartile25_a
  colnames(amp) [11] <-"ad-replay"
  
  library(reshape2)
- View(amp)
  
- #remove top rows
+ #removes top rows
  amp <- amp[-c(1:13),]
 
- #create one chart with 4 lines 
  #use melt function to transform data frame 
- #melt: "keep the data as it is, Dates are the id and each row shows value of ad;creative_id
+ #melt: keeps the data as it is, Dates are the id and each row shows value of ad_id;creative_id
  ampLong <- melt(amp, id=12:22, measure.vars = 2:11)
+ 
+ #removes empty cells 
  filtered <- na.omit(ampLong)
+ 
+ #creates new column with sum of all rows 
  filtered$total<- rowSums(filtered[,1:11])
+ 
+ #creates new column with product name
  filtered$product <- "parvus_video"
+ 
+ #removes columns
  filtered <- filtered[-c(1:11)]
  
  View(filtered)
